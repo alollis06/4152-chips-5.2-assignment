@@ -1,9 +1,15 @@
 <tr id="<%= dom_id movie %>">
   <%# The title identifies the row, so it is a header cell for that row. %>
 
-  <th scope="row"><%= movie.title %></th>
-  <td><%= movie.rating %></td>
-  <td><%= movie.release_date %></td>
+  <th scope="row">
+    <p class="mb-0"><strong class="visually-hidden">Title:</strong> <%= movie.title %></p>
+  </th>
+  <td>
+    <p class="mb-0"><strong class="visually-hidden">Rating:</strong> <%= movie.rating %></p>
+  </td>
+  <td>
+    <p class="mb-0"><strong class="visually-hidden">Release date:</strong> <%= movie.release_date %></p>
+  </td>
   <td>
     <%# Every row's link says "More info", so the movie title is added for
         screen readers to keep the links distinguishable from one another. %>
