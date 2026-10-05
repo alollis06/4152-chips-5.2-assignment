@@ -4,9 +4,18 @@ class MoviesController < ApplicationController
   # GET /movies or /movies.json
   def index
   @all_ratings = Movie.all_ratings
-  @ratings_to_show = params[:ratings] ? params[:ratings].keys : @all_ratings
-  @ratings_hash = @ratings_to_show.index_with { "1" }
-  @sort_by = params[:sort_by]
+
+  # The user explicitly submitted a filter/sort (form or header link): save it
+  if params.key?(:ratings) || params.key?(:sort_by)
+    session[:ratings] = params[:ratings] ? params[:ratings].keys : nil
+    session[:sort_by] = params[:sort_by]
+  end
+
+  # Otherwise fall back to what we remembered
+  @ratings_to_show = session[:ratings].presence || @all_ratings
+  @sort_by         = session[:sort_by]
+  @ratings_hash    = @ratings_to_show.index_with { "1" }
+
   @movies = Movie.with_ratings(@ratings_to_show)
   @movies = @movies.order(@sort_by) if %w[title release_date].include?(@sort_by)
   end
